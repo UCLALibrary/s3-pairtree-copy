@@ -1,0 +1,21 @@
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[%level] %logger{45} | %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="ch.qos.logback" level="WARN" />
+  
+  <!-- Keep these in case we toggle root to DEBUG -->
+  <logger name="info.freelibrary.util.FileUtils" level="INFO" />
+  <logger name="info.freelibrary.util.XMLResourceBundle" level="INFO" />
+  <logger name="info.freelibrary.util.I18nException" level="INFO" />
+  <logger name="info.freelibrary.iiif.image" level="INFO" />
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+  </root>
+
+</configuration>

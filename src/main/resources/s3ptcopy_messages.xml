@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+  <!-- Define message codes class name -->
+  <entry key="message-class-name">edu.ucla.library.pairtree.MessageCodes</entry>
+  
+  <!-- To process file: -->
+  <!-- mvn info.freelibrary:freelib-utils:generate-codes -DmessageFiles=`ls src/main/resources/*_messages.xml` -->
+  
+  <!-- General utility messages -->
+  <entry key="T-001">A list of pairtree objects to copy is required</entry>
+  <entry key="T-002">A CSV file with IDs and file system paths is required</entry>
+  <entry key="T-003">Expected CSV file '{}' was not found</entry>
+  <entry key="T-004">Error reading data: {}</entry>
+  <entry key="T-005">A source S3 bucket must be supplied</entry>
+  <entry key="T-006">A destination S3 bucket must be supplied</entry>
+  <entry key="T-007">Moved '{}' from '{}' to '{}'</entry>
+  <entry key="T-008">Started processing new manuscript: {}</entry>
+  <entry key="T-009"></entry>
+  <entry key="T-010"></entry>
+  <entry key="T-011"></entry>
+  <entry key="T-012"></entry>
+  <entry key="T-013"></entry>
+  <entry key="T-014"></entry>
+  <entry key="T-015"></entry>
+  <entry key="T-016"></entry>
+  <entry key="T-017"></entry>
+  <entry key="T-018"></entry>
+  <entry key="T-019"></entry>
+  <entry key="T-020"></entry>
+</properties>

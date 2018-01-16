@@ -1,0 +1,179 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>s3-pairtree-copy</artifactId>
+  <packaging>jar</packaging>
+  <version>0.0.1</version>
+  <name>S3 Pairtree Copy</name>
+
+  <properties>
+    <aws.s3.version>1.11.191</aws.s3.version>
+    <freelib.utils.version>0.8.5</freelib.utils.version>
+    <vertx.pairtree.version>0.0.3</vertx.pairtree.version>
+    <airline.version>0.8</airline.version>
+    <opencsv.version>4.1</opencsv.version>
+
+    <!-- Plugin versions -->
+    <shade.plugin.version>2.3</shade.plugin.version>
+    <deploy.plugin.version>2.8.2</deploy.plugin.version>
+    <codacy.plugin.version>1.0.2</codacy.plugin.version>
+
+    <!-- Build configuration properties -->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.airlift</groupId>
+      <artifactId>airline</artifactId>
+      <version>${airline.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>info.freelibrary</groupId>
+      <artifactId>vertx-pairtree</artifactId>
+      <version>${vertx.pairtree.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-s3</artifactId>
+      <version>${aws.s3.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.opencsv</groupId>
+      <artifactId>opencsv</artifactId>
+      <version>${opencsv.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>info.freelibrary</groupId>
+        <artifactId>freelib-utils</artifactId>
+        <version>${freelib.utils.version}</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>generate-codes</goal>
+            </goals>
+            <configuration>
+              <generatedSourcesDirectory>${project.basedir}/src/main/generated</generatedSourcesDirectory>
+              <messageFiles>
+                <messageFile>src/main/resources/s3ptcopy_messages.xml</messageFile>
+              </messageFiles>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${shade.plugin.version}</version>
+        <configuration>
+          <createDependencyReducedPom>false</createDependencyReducedPom>
+          <transformers>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+              <mainClass>edu.ucla.library.pairtree</mainClass>
+            </transformer>
+          </transformers>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>info.freelibrary</groupId>
+            <artifactId>freelib-resources</artifactId>
+            <version>${freelib.resources.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <stylesheetfile>javadocs.css</stylesheetfile>
+          <nonavbar>true</nonavbar>
+          <show>public</show>
+          <nosince>true</nosince>
+          <notimestamp>true</notimestamp>
+          <bottom> </bottom>
+          <detectLinks>false</detectLinks>
+          <additionalJOptions>
+            <additionalJOption>-J-Dhttp.agent=maven-javadoc-plugin-${project.name}</additionalJOption>
+          </additionalJOptions>
+          <links>
+            <link>http://javadoc.io/page/io.airlift/airline/${airline.version}</link>
+            <link>https://google.github.io/guava/releases/${guava.version}/api/docs/</link>
+            <link>https://docs.oracle.com/javase/8/docs/api/</link>
+          </links>
+          <sourcepath>src/main/java:src/main/generated</sourcepath>
+        </configuration>
+        <executions>
+          <execution>
+            <id>site-javadocs</id>
+            <phase>site</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>com.gavinmogan</groupId>
+        <artifactId>codacy-maven-plugin</artifactId>
+        <version>${codacy.plugin.version}</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>br.com.ingenieux</groupId>
+        <artifactId>jbake-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${deploy.plugin.version}</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Pulls in standard FreeLibrary Project configuration options -->
+  <parent>
+    <artifactId>freelib-parent</artifactId>
+    <groupId>info.freelibrary</groupId>
+    <version>0.2.6</version>
+  </parent>
+
+</project>
