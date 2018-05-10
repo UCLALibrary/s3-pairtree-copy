@@ -9,7 +9,7 @@
 
   <properties>
     <aws.s3.version>1.11.191</aws.s3.version>
-    <freelib.utils.version>0.8.5</freelib.utils.version>
+    <freelib.utils.version>0.8.8</freelib.utils.version>
     <vertx.pairtree.version>0.0.3</vertx.pairtree.version>
     <airline.version>0.8</airline.version>
     <opencsv.version>4.1</opencsv.version>
@@ -173,7 +173,7 @@
   <parent>
     <artifactId>freelib-parent</artifactId>
     <groupId>info.freelibrary</groupId>
-    <version>0.2.6</version>
+    <version>0.2.9</version>
   </parent>
 
 </project>
